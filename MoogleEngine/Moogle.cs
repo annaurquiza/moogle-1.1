@@ -12,6 +12,6 @@ public static class Moogle
             new SearchItem("Hello World", "Lorem ipsum dolor sit amet", 0.1f),
         };
 
-        return new SearchResult(items, query);
+        return new SearchResult(items, "algo no encontrado por el momento...");
     }
 }
