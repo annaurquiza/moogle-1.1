@@ -32,4 +32,13 @@
     private void RunQuery() {
         result = Moogle.Query(query);
     }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender)
+        {
+            // Do work to load page data and set properties
+            Moogle.LoadLibrary();
+        }
+    }
 }
