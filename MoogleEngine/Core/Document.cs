@@ -17,12 +17,12 @@ public class Document
     private void ComputeVocabulary()
     {
         this.Vocabulary.Clear();
-        //palabras distintas de longitud mayor que 1.
-        string[] words = this.Content.ToLower().Split().Distinct().Where(x => x.Length > 1).ToArray();
+        //palabras distintas de longitud mayor que 2.
+        string[] words = this.Content.ToLower().Split().Distinct().Where(x => x.Length > 2).ToArray();
         foreach (string word in words)
         {
             //ubicaciones de cada palabra en el documento
-            int[] locations = this.Content.AllIndexOf(word, StringComparison.OrdinalIgnoreCase).ToArray();
+            int[] locations = this.Content.GetAllIndexOf(word, StringComparison.OrdinalIgnoreCase);
             this.Vocabulary.Add(word, locations);
         } 
         //acciones para calcular importancia de cada palabra

@@ -5,12 +5,15 @@ public static class Moogle
 {
     private static IList<Document> library;
 
-    public static SearchResult Query(string query) {
-
+    public static SearchResult Query(string query) 
+    {
+        //comprobar que la biblioteca ya se cargó
         if (library == null)
         {
            LoadLibrary();
         }
+
+        SearchCriteria criteria = SearchCriteriaFactory.BuildCriteriaFromQuery(query);
 
         string[] queryWords = query.Split();
 
