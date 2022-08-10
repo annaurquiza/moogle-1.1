@@ -3,31 +3,19 @@ using MoogleEngine.Core;
 
 public static class Moogle
 {
-    private static IList<Document> library;
+    private const string FILESLOCATION = "../Content";
+    private static Library library = new Library(FILESLOCATION);
 
     public static SearchResult Query(string query) 
     {
-        //comprobar que la biblioteca ya se cargó
-        if (library == null)
-        {
-           LoadLibrary();
-        }
+        LoadLibrary();
 
         SearchCriteria criteria = SearchCriteriaFactory.BuildCriteriaFromQuery(query);
-
-        string[] queryWords = query.Split();
 
         IList<SearchItem> items = new List<SearchItem>();
 
         string suggestion = "";
 
-        foreach (Document doc in library)
-        {
-         if (doc.ContainsAnyWordIn(query))
-         {
-           items.Add( new SearchItem(doc.Title, "Lorem ipsum dolor sit amet", 1));
-         }
-        }
 
         if(items.Count == 0)
         {
@@ -40,6 +28,9 @@ public static class Moogle
 
     public static void LoadLibrary()
     {
-        library = Library.Load("../Content");
+        if (library == null)
+        {
+           library = new Library(FILESLOCATION);
+        }
     }
 }
