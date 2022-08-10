@@ -30,10 +30,9 @@ public static class SearchEngine
          if (docsToSearch.Count() == 0)
          {
             //buscar similitud mayor entre vocabulario y elementos del criterio
+            suggestion = "en proceso...";
 
          }
-
-
 
         return new SearchResult(items.ToArray(), suggestion);
     }
