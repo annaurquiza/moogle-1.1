@@ -35,7 +35,6 @@ public class SearchCriteria
             {
                 ExcludeWords.Add(word);
             }
-            AddWord(word);
         }
     }
 

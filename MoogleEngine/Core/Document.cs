@@ -9,6 +9,7 @@ public class Document
     {
         this.Title = title;
         this.Content = literalContent;
+        this.Relevance = 0;
         this.StemmedVocabulary = new List<string>();
         this.StemmedContent = new List<string>();
         PreProcessContent(stemmer);
@@ -16,15 +17,26 @@ public class Document
 
     public string Title { get; private set; }
     public string Content { get; private set; }
+    public double Relevance { get; private set;}
     public IList<string> StemmedVocabulary { get; private set; }
     public IList<string> StemmedContent { get; private set; }
+    public void AddRelevance( double value)
+    {
+        Relevance += value;
+    }
 
-     private void PreProcessContent(Stemmer stemmer)
+    public string GetSnippet(string[] words)
+    {   
+        string snippet = "fragmento del texto en proceso";
+        return snippet;
+    }
+
+    private void PreProcessContent(Stemmer stemmer)
     {            
         //poner texto en minúscula y sustituir tildes por vocales correspondientes
         string text = Content.ToLower().FlatString();
-        //tokenizar partes del texto, como direcciones de correo, números, etc y fragmentar
-        string[] docParts = Tokenize(text);
+        //tokenizar el texto, como direcciones de correo, números, etc y fragmentar
+        string[] docParts = text.Tokenize().Split(" @$/#.-:&*+=[]¿?¡!(){},''\">_<;%\\".ToCharArray());
         foreach (string part in docParts)
         {
             // tomar solo caracteres y números
@@ -50,24 +62,5 @@ public class Document
                 }
             }                    
         }
-    }           
-
-    private static string[] Tokenize(string text)
-    {
-      // Strip all HTML.
-      text = Regex.Replace(text, "<[^<>]+>", "");
-      // Strip numbers.
-      text = Regex.Replace(text, "[0-9]+", "number");
-      // Strip urls.
-      text = Regex.Replace(text, @"(http|https)://[^\s]*", "httpaddr");
-      // Strip email addresses.
-      text = Regex.Replace(text, @"[^\s]+@[^\s]+", "emailaddr");
-      // Strip dollar sign.
-      text = Regex.Replace(text, "[$]+", "dollar");
-      // Strip usernames.
-      text = Regex.Replace(text, @"@[^\s]+", "username");      
-      // Tokenize and also get rid of any punctuation
-      return text.Split(" @$/#.-:&*+=[]?!(){},''\">_<;%\\".ToCharArray());
-    }
-   
+    }             
 }

@@ -8,23 +8,12 @@ public static class Moogle
 
     public static SearchResult Query(string query) 
     {
+        //Por si no se ha cargado la biblioteca
         LoadLibrary();
-
+        //Construir el criterio de búsqueda
         SearchCriteria criteria = SearchCriteriaFactory.BuildCriteriaFromQuery(query);
-
-        IList<SearchItem> items = new List<SearchItem>();
-
-        string suggestion = "";
-
-
-        if(items.Count == 0)
-        {
-            suggestion = "algo no encontrado por el momento...";
-        }
-
-        return new SearchResult(items.ToArray(), suggestion);
+        return SearchEngine.Search(library,criteria);
     }
-
 
     public static void LoadLibrary()
     {

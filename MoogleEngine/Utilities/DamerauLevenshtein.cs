@@ -1,12 +1,7 @@
 //Tomado de http://mihkeltt.blogspot.com/2009/04/dameraulevenshtein-distance.html
 public static class DamerauLevenshtein
 {
- public static int DamerauLevenshteinDistanceTo(this string @string, string targetString)
- {
-  return DamerauLevenshteinDistance(@string, targetString);
- }
-
- public static int DamerauLevenshteinDistance(string string1, string string2)
+ public static int Distance(string string1, string string2)
  {
   if (String.IsNullOrEmpty(string1))
   {
