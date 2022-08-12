@@ -34,6 +34,6 @@ public static class SearchEngine
 
          }
 
-        return new SearchResult(items.ToArray(), suggestion);
+        return new SearchResult(items.OrderBy(d => d.Score).ToArray(), suggestion);
     }
 }
