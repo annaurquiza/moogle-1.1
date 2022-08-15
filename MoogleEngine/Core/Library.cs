@@ -17,17 +17,53 @@ public class Library
 
     public IList<Document> Documents { get; private set;}
 
-    public void ComputeDocumentRelevance(Document document, SearchCriteria criteria)
+    public double GetTF_IDF_WEIGHT(Document document, SearchCriteria criteria)
     {
+        double relevance = 0;
         if(TF_IDF_Weigth.ContainsKey(document.Title))
         {
-            string[] valuedStemms = Vocabulary.ToArray().Intersect(LibraryStemmer.GetSteamWords(criteria.Words.ToArray())).ToArray();
+            string[] valuedStemms = document.StemmedVocabulary.ToArray().Intersect(LibraryStemmer.GetSteamWords(criteria.Words.ToArray())).ToArray();
             foreach (var stem in valuedStemms)
             {
                 int stemIndex = Vocabulary.IndexOf(stem);
-                document.AddRelevance(TF_IDF_Weigth[document.Title].ToArray()[stemIndex]);
+                relevance += TF_IDF_Weigth[document.Title].ToArray()[stemIndex];
             }
         }
+        return relevance;
+    }
+
+    public string[] GetRelevantWords(string[] words)
+    {
+        return LibraryStemmer.GetSteamWords(words).Where(x => !StopWords.SpanishStopWordsList.Contains(x)).ToArray();
+    }
+
+    public string GetMostRelevantWord(Document document, string[] words)
+    {
+        string relevantWord = "";
+        try
+        {
+            relevantWord = document.Content.Split().FirstOrDefault();
+        }
+        catch (System.Exception)
+        {
+        }
+
+        Double maxValue = 0;
+        if(TF_IDF_Weigth.ContainsKey(document.Title))
+        {   
+            string[] valuedStemms = Vocabulary.ToArray().Intersect(LibraryStemmer.GetSteamWords(words)).ToArray();
+            foreach (var stem in valuedStemms)
+            {
+                int stemIndex = Vocabulary.IndexOf(stem);
+                double stemValue = TF_IDF_Weigth[document.Title].ToArray()[stemIndex];
+                if (stemValue > maxValue)
+                {
+                    relevantWord = stem;
+                    maxValue = stemValue;
+                }
+            }
+        }
+        return relevantWord;
     }
 
     private IList<string> Vocabulary;

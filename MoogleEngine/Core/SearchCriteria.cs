@@ -2,14 +2,16 @@ namespace MoogleEngine.Core;
 
 public class SearchCriteria
 {
-    public SearchCriteria() 
+    public SearchCriteria(string literalSearch) 
     {
+        LiteralSearch =literalSearch;
         Words = new List<string>();
         ExcludeWords = new List<string>();
         MustWords =  new List<string>();
         SearchAndScoreWords = new Dictionary<string, int>();
         RelatedWords = new List<(string,string)>();
     }
+    public string LiteralSearch {get; private set; }
     public IList<string> Words {get; private set; }
     public IList<string> ExcludeWords { get; private set; }
     public IList<string> MustWords { get; private set; }

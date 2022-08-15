@@ -9,32 +9,42 @@ public class Document
     {
         this.Title = title;
         this.Content = literalContent;
-        this.Relevance = 0;
         this.StemmedVocabulary = new List<string>();
         this.StemmedContent = new List<string>();
         PreProcessContent(stemmer);
     }
-
     public string Title { get; private set; }
     public string Content { get; private set; }
-    public double Relevance { get; private set;}
-    public IList<string> StemmedVocabulary { get; private set; }
-    public IList<string> StemmedContent { get; private set; }
-    public void AddRelevance( double value)
-    {
-        Relevance += value;
-    }
 
-    public string GetSnippet(string[] words)
+    public string FullContent {
+        get 
+        {
+            return $"{this.Title} {this.Content}";
+        }
+    }
+    public IList<string> StemmedVocabulary { get; private set; }
+    public IList<string> StemmedContent { get; private set; }    
+    public string GetSnippet(string guideWord, int length = 100)
     {   
-        string snippet = "fragmento del texto en proceso";
+        int start = 0;
+        int guideWordPosition = this.Content.IndexOf(guideWord);
+        int[] spaces = this.Content.GetAllIndexOf(" ", StringComparison.InvariantCultureIgnoreCase);
+        int padding = 30;
+        if (guideWordPosition - padding > 0)
+        {
+            start = guideWordPosition - padding;
+        }        
+        if (start + length > this.Content.Length)
+        {
+            length = this.Content.Length - start;
+        }
+        string snippet = this.Content.Substring(start, length);
         return snippet;
     }
-
     private void PreProcessContent(Stemmer stemmer)
     {            
         //poner texto en minúscula y sustituir tildes por vocales correspondientes
-        string text = Content.ToLower().FlatString();
+        string text = Content.FlatString();
         //tokenizar el texto, como direcciones de correo, números, etc y fragmentar
         string[] docParts = text.Tokenize().Split(" @$/#.-:&*+=[]¿?¡!(){},''\">_<;%\\".ToCharArray());
         foreach (string part in docParts)

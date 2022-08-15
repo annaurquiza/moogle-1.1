@@ -12,7 +12,7 @@ public static class Moogle
         LoadLibrary();
         //Construir el criterio de búsqueda
         SearchCriteria criteria = SearchCriteriaFactory.BuildCriteriaFromQuery(query);
-        return SearchEngine.Search(library,criteria);
+        return SearchEngine.Search(library, criteria);
     }
 
     public static void LoadLibrary()

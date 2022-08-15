@@ -12,7 +12,7 @@ public static class SearchCriteriaFactory
         string flatQuery = query.FlatString();
         List<string> pWords = flatQuery.Split(" ").ToList();
 
-        SearchCriteria criteria = new SearchCriteria();
+        SearchCriteria criteria = new SearchCriteria(ClearWordFromOperators(query));
 
         int pIndex = -1;
 
