@@ -42,7 +42,11 @@ public class Library
         string relevantWord = "";
         try
         {
-            relevantWord = document.Content.Split().FirstOrDefault();
+            var splittedDoc = document.Content.Split();
+            if (splittedDoc.Count() > 0)
+            {
+                relevantWord = splittedDoc[0];
+            }            
         }
         catch (System.Exception)
         {
