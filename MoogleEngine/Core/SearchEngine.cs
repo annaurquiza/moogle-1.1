@@ -57,7 +57,7 @@ public static class SearchEngine
             //guardar el peso básico del resultado para determinar si hay que buscar alguna sugerencia
             generalWeightSearch += relevance;
             //Relevancia del documento según la búsqueda
-            relevance += ScoreCalculator.GetComputedScore(doc, critera);
+            relevance += ScoreCalculator.GetComputedScore(doc, critera, library.LibraryStemmer);
             //buscando la palabra más relevante para construir snippet
             string mostRelevantWord = library.GetMostRelevantWord(doc, critera.Words.ToArray());
             SearchItem docFound = new SearchItem(doc.Title, doc.GetSnippet(mostRelevantWord, 300), (float)relevance);

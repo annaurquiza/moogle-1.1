@@ -4,17 +4,18 @@ namespace MoogleEngine.Core;
 
 public class ScoreCalculator
 {
-    public static double GetComputedScore(Document document, SearchCriteria criteria)
+    public static double GetComputedScore(Document document, SearchCriteria criteria, Stemmer stemmer)
     {
         double score = 0;
-        Stemmer stemmer = new SpanishStemmer(); 
         
         //puntos por coincidencia en título
+        //si el titulo coincide agregar un punto
         if (document.Title.ToLower().Contains(criteria.LiteralSearch.ToLower()))
         {   
             score += 1;
         }
         else
+        //si no coincide agregar una fraccion proporcional a la cantidad de palabras coincidentes
         {
             string[] stemmedTitle = stemmer.GetSteamWords(document.Title.Split());
             string[] stemmedSearch = stemmer.GetSteamWords(criteria.LiteralSearch.Split());
@@ -24,6 +25,24 @@ public class ScoreCalculator
                 double value = (stemmedTitle.Count() + stemmedSearch.Count())/(match.Count()*2);
                 score += match.Count() * value;
             }           
+        }
+
+        //incremento de score por palabras
+        //agregar un decimo de punto por cada incremento
+        foreach (var item in criteria.SearchAndScoreWords)
+        {
+            string word = item.Key;
+            if (document.Content.FlatString().Contains(word.FlatString()))
+            {
+                score += (double)1/10 * (double)item.Value;
+            }
+        }
+
+        //incremento por cercania de palabras
+        foreach (var relWords in criteria.RelatedWords)
+        {
+            int[] w1Locations = document.Content.GetAllIndexOf(relWords.Item1);
+            int[] w2Locations = document.Content.GetAllIndexOf(relWords.Item2);
         }
 
         return score;

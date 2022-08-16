@@ -28,7 +28,7 @@ public class Document
     {   
         int start = 0;
         int guideWordPosition = this.Content.IndexOf(guideWord);
-        int[] spaces = this.Content.GetAllIndexOf(" ", StringComparison.InvariantCultureIgnoreCase);
+        int[] spaces = this.Content.GetAllIndexOf(" ");
         int padding = 30;
         if (guideWordPosition - padding > 0)
         {

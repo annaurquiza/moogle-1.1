@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 public static class StringExtensions
 {
-    public static int[] GetAllIndexOf(this string @string, string str, StringComparison comparisonType)
+    public static int[] GetAllIndexOf(this string @string, string str, StringComparison comparisonType = StringComparison.InvariantCultureIgnoreCase)
     {
         IList<int> allIndexOf = new List<int>();
         int index = @string.IndexOf(str, comparisonType);

@@ -38,7 +38,7 @@ public static class SearchCriteriaFactory
             //buscando palabras con operador de importancia
             if (w.IndexOf(INCREASE_RANK_OPERATOR) >= 0)
             {
-                int relevance = w.GetAllIndexOf(INCREASE_RANK_OPERATOR, StringComparison.InvariantCultureIgnoreCase).Count();
+                int relevance = w.GetAllIndexOf(INCREASE_RANK_OPERATOR).Count();
                 criteria.AddScoredWord(ClearWordFromOperators(w), relevance);
                 continue;
             }
