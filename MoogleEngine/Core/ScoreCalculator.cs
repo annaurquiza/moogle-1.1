@@ -43,7 +43,12 @@ public class ScoreCalculator
         {
             int[] w1Locations = document.Content.GetAllIndexOf(relWords.Item1);
             int[] w2Locations = document.Content.GetAllIndexOf(relWords.Item2);
-        }
+            if ( w1Locations.Count() > 0 && w2Locations.Count() > 0 )
+            {
+                int minimumDistance = ArrayUtilities.findSmallestDifference(w1Locations,w2Locations);
+                score += (double)1 / (double)minimumDistance;
+            }
+        }   
 
         return score;
     }
