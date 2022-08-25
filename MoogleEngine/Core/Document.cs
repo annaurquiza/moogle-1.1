@@ -45,7 +45,7 @@ public class Document
     }
     private void PreProcessContent(Stemmer stemmer)
     {   
-        LiteralVocabulary = FullContentIncludingTitle.ToLower().Split(" @$/#.-:&*+=[]¿?¡!(){},''\">_<;%\\".ToCharArray()).Distinct().Where(x => x.Length > 0 && !StopWords.SpanishStopWordsList.Contains(x)).OrderBy(x => x).ToList();
+        LiteralVocabulary = FullContentIncludingTitle.ToLower().Split(" @$/#.-:&*+=[]¿?¡!(){},''\">_<;%\\".ToCharArray()).Distinct().Where(x => x.Length > 0 && !stemmer.StopWordsList().Contains(x)).OrderBy(x => x).ToList();
         //poner texto en minúscula y sustituir tildes por vocales correspondientes
         string text = FullContentIncludingTitle.FlatString();
         //tokenizar el texto, como direcciones de correo, números, etc y fragmentar
@@ -60,7 +60,7 @@ public class Document
             }
 
             // ignorar palabras comunes
-            if (!StopWords.SpanishStopWordsList.Contains(strippedText))
+            if (!stemmer.StopWordsList().Contains(strippedText))
             {
                 try
                 {             

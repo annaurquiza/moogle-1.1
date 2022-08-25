@@ -1,4 +1,4 @@
-namespace MoogleEngine;
+namespace MoogleEngine.Core;
 
 public class SearchResult
 {

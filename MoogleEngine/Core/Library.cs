@@ -37,7 +37,7 @@ public class Library
 
     public string[] GetRelevantWords(string[] words)
     {
-        return LibraryStemmer.GetSteamWords(words).Where(x => !StopWords.SpanishStopWordsList.Contains(x)).ToArray();
+        return LibraryStemmer.GetSteamWords(words).Where(x => !LibraryStemmer.StopWordsList().Contains(x)).ToArray();
     }
 
     public string GetMostRelevantWord(Document document, string[] words)

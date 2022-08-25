@@ -41,6 +41,8 @@ namespace Annytab.Stemmer;
         /// <returns>The stripped word</returns>
         public abstract string GetSteamWord(string word);
 
+        public abstract string[] StopWordsList();
+
         #endregion
 
         #region Helper methods
