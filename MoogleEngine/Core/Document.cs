@@ -9,6 +9,7 @@ public class Document
     {
         this.Title = title;
         this.Content = literalContent;
+        this.LiteralVocabulary = new List<string>();
         this.StemmedVocabulary = new List<string>();
         this.StemmedContent = new List<string>();
         PreProcessContent(stemmer);
@@ -16,13 +17,14 @@ public class Document
     public string Title { get; private set; }
     public string Content { get; private set; }
 
-    public string FullContent {
+    public string FullContentIncludingTitle {
         get 
         {
             return $"{this.Title} {this.Content}";
         }
     }
     public IList<string> StemmedVocabulary { get; private set; }
+    public IList<string> LiteralVocabulary { get; private set; }
     public IList<string> StemmedContent { get; private set; }    
     public string GetSnippet(string guideWord, int length = 100)
     {   
@@ -42,21 +44,26 @@ public class Document
         return snippet;
     }
     private void PreProcessContent(Stemmer stemmer)
-    {            
+    {   
+        LiteralVocabulary = FullContentIncludingTitle.ToLower().Split(" @$/#.-:&*+=[]¿?¡!(){},''\">_<;%\\".ToCharArray()).Distinct().Where(x => x.Length > 0 && !StopWords.SpanishStopWordsList.Contains(x)).OrderBy(x => x).ToList();
         //poner texto en minúscula y sustituir tildes por vocales correspondientes
-        string text = Content.FlatString();
+        string text = FullContentIncludingTitle.FlatString();
         //tokenizar el texto, como direcciones de correo, números, etc y fragmentar
         string[] docParts = text.Tokenize().Split(" @$/#.-:&*+=[]¿?¡!(){},''\">_<;%\\".ToCharArray());
         foreach (string part in docParts)
         {
             // tomar solo caracteres y números
             string strippedText = Regex.Replace(part, "[^a-zA-Z0-9]", "");
+            if (string.IsNullOrEmpty(strippedText))
+            {
+                continue;
+            }
 
             // ignorar palabras comunes
             if (!StopWords.SpanishStopWordsList.Contains(strippedText))
             {
                 try
-                {                    
+                {             
                     string stem = stemmer.GetSteamWord(strippedText);
                     if (stem.Length > 0)
                     {

@@ -14,7 +14,7 @@ public static class SearchEngine
          {
             foreach (var doc in library.Documents)
             {
-               if(!critera.ExcludeWords.Any(x => doc.FullContent.FlatString().Contains(x.FlatString())))
+               if(!critera.ExcludeWords.Any(x => doc.FullContentIncludingTitle.FlatString().Contains(x.FlatString())))
                {
                   docsToSearch.Add(doc);
                }
@@ -29,24 +29,24 @@ public static class SearchEngine
          //si hay palabras obligatorias sacar documentos que no las contengan
          if (critera.MustWords.Count() > 0)
          {
-            var titlesToRemove = new List<String>();
+            var docsToRemove = new List<String>();
             foreach (var doc in docsToSearch)
             {
-               if (!critera.MustWords.Any(x => doc.FullContent.FlatString().Contains(x.FlatString())))
+               if (!critera.MustWords.Any(x => doc.FullContentIncludingTitle.FlatString().Contains(x.FlatString())))
                {
-                  titlesToRemove.Add(doc.Title);
+                  docsToRemove.Add(doc.Title);
                }
             }
 
-            docsToSearch = docsToSearch.Where(x => !titlesToRemove.Contains(x.Title)).ToList();
+            docsToSearch = docsToSearch.Where(x => !docsToRemove.Contains(x.Title)).ToList();
          }
 
         //Buscando coincidencias basicas
         //TODO: stopwords en criterio?
-         string[] includeStems = library.GetRelevantWords(critera.Words.ToArray());
-         if (includeStems.Count() > 0)
+         string[] stemmedCriteriaWords = library.GetRelevantWords(critera.Words.ToArray());
+         if (stemmedCriteriaWords.Count() > 0)
          {
-            docsToSearch = docsToSearch.Where(x => (x.StemmedVocabulary.Intersect(includeStems).Count() > 0) || ( library.LibraryStemmer.GetSteamWords(x.Title.FlatString().Split()).Intersect(includeStems).Count() > 0)).ToList();
+            docsToSearch = docsToSearch.Where(x => (x.StemmedVocabulary.Intersect(stemmedCriteriaWords).Count() > 0) || ( library.LibraryStemmer.GetSteamWords(x.Title.FlatString().Split()).Intersect(stemmedCriteriaWords).Count() > 0)).ToList();
          }
 
          //Calculando la valoracion de cada documento
@@ -65,10 +65,11 @@ public static class SearchEngine
          }
 
         //Comprobar si no hubo coincidencias
-         if (generalWeightSearch < 1 || docsToSearch.Count() == 0)
+         if (generalWeightSearch < .5 || docsToSearch.Count() == 0)
          {
             //buscar similitud mayor entre vocabulario y elementos del criterio
-            suggestion = "Relevancia del resultado insuficiente. Mostrar sugerencia...";
+            //faltaría sacar las palabras que sí obtuvieron un resultado válido para que no aparezcan "por gusto" en las sugerencias
+            suggestion = library.GetBestSuggestion(critera.Words.ToArray());
          }
 
          //Ordenando elementos del resultado

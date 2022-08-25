@@ -2,6 +2,19 @@ using System.Text.RegularExpressions;
 
 public static class StringExtensions
 {
+
+    public static double GetCommonLettersPercent(this string @string, string stringToCompare)
+    {
+        double percent = 0;
+        int totalCommonDistinctWords = @string.FlatString().Intersect(stringToCompare.FlatString()).Distinct().Count(); 
+        string joinedWords = @string.FlatString() + stringToCompare.FlatString();
+        int totalDistinctWords = joinedWords.Distinct().Count();
+        if (totalDistinctWords > 0)
+        {
+            percent = ((double)totalCommonDistinctWords * (double)100) / (double)totalDistinctWords;
+        }
+        return percent;
+    }
     public static int[] GetAllIndexOf(this string @string, string str, StringComparison comparisonType = StringComparison.InvariantCultureIgnoreCase)
     {
         IList<int> allIndexOf = new List<int>();
