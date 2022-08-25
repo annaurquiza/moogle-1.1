@@ -30,14 +30,20 @@ public static class SearchEngine
          if (critera.MustWords.Count() > 0)
          {
             var docsToRemove = new List<String>();
-            foreach (var doc in docsToSearch)
+            foreach (string mword in critera.MustWords)
             {
-               if (!critera.MustWords.Any(x => doc.FullContentIncludingTitle.FlatString().Contains(x.FlatString())))
+               foreach (var doc in docsToSearch)
                {
-                  docsToRemove.Add(doc.Title);
+                  if (docsToRemove.Contains(doc.Title)) 
+                  {
+                     continue;
+                  }
+                  if (!doc.FullContentIncludingTitle.FlatString().Contains(mword.FlatString()))
+                  {
+                     docsToRemove.Add(doc.Title);
+                  }
                }
             }
-
             docsToSearch = docsToSearch.Where(x => !docsToRemove.Contains(x.Title)).ToList();
          }
 

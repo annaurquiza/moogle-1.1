@@ -46,7 +46,7 @@ public class ScoreCalculator
             if ( w1Locations.Count() > 0 && w2Locations.Count() > 0 )
             {
                 int minimumDistance = ArrayUtilities.FindSmallestDifference(w1Locations,w2Locations);
-                score += (double)1 / (double)minimumDistance;
+                score += (double)10 / (double)minimumDistance;
             }
         }   
 

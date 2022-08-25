@@ -27,7 +27,7 @@ public static class StringExtensions
     }
     public static string FlatString(this string @string)
     {
-        return @string.Replace("á","a").Replace("é","e").Replace("í","i").Replace("ó","o").Replace("ú","u").ToLowerInvariant();
+        return @string.ToLowerInvariant().Replace("á","a").Replace("é","e").Replace("í","i").Replace("ó","o").Replace("ú","u");
     }
     public static string Tokenize(this string @string)
     {

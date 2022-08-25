@@ -58,14 +58,14 @@ public static class SearchCriteriaFactory
                     //caso 1: palabra1 ~ palabra2
                     if (w.Trim().Length == 1) 
                     {                  
-                        criteria.AddRelatedWords(pWords.ElementAt(pIndex-1), pWords.ElementAt(pIndex+1));
+                        criteria.AddRelatedWords(ClearWordFromOperators(pWords.ElementAt(pIndex-1)), ClearWordFromOperators(pWords.ElementAt(pIndex+1)));
                     }
                     else
                     {
                         string[] nWords = w.Split(NEARBY_OPERATOR);
                         for (int i = 0; i < nWords.Length - 1; i++)
                         {
-                            criteria.AddRelatedWords(nWords[i],nWords[i+1]);
+                            criteria.AddRelatedWords(ClearWordFromOperators(nWords[i]),ClearWordFromOperators(nWords[i+1]));
                         }
                     }
                 }
