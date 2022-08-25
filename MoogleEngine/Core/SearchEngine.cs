@@ -48,7 +48,6 @@ public static class SearchEngine
          }
 
         //Buscando coincidencias basicas
-        //TODO: stopwords en criterio?
          string[] stemmedCriteriaWords = library.GetRelevantWords(critera.Words.ToArray());
          if (stemmedCriteriaWords.Count() > 0)
          {
@@ -74,7 +73,6 @@ public static class SearchEngine
          if (generalWeightSearch < .5 || docsToSearch.Count() == 0)
          {
             //buscar similitud mayor entre vocabulario y elementos del criterio
-            //faltaría sacar las palabras que sí obtuvieron un resultado válido para que no aparezcan "por gusto" en las sugerencias
             suggestion = library.GetBestSuggestion(critera.Words.ToArray());
          }
 

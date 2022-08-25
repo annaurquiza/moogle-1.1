@@ -30,7 +30,6 @@ public class Document
     {   
         int start = 0;
         int guideWordPosition = this.Content.FlatString().IndexOf(guideWord.FlatString());
-        // int[] spaces = this.Content.GetAllIndexOf(" ");
         int padding = 30;
         if (guideWordPosition - padding > 0)
         {
