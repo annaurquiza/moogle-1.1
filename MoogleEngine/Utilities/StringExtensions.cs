@@ -2,7 +2,6 @@ using System.Text.RegularExpressions;
 
 public static class StringExtensions
 {
-
     public static double GetCommonLettersPercent(this string @string, string stringToCompare)
     {
         double percent = 0;
@@ -26,12 +25,10 @@ public static class StringExtensions
         }
         return allIndexOf.ToArray();
     }
-
     public static string FlatString(this string @string)
     {
         return @string.Replace("á","a").Replace("é","e").Replace("í","i").Replace("ó","o").Replace("ú","u").ToLowerInvariant();
     }
-
     public static string Tokenize(this string @string)
     {
         // Strip all HTML.
