@@ -28,13 +28,13 @@ public class ScoreCalculator
         }
 
         //incremento de score por palabras
-        //agregar un decimo de punto por cada incremento
+        //agregar un cuarto de punto por cada incremento
         foreach (var item in criteria.SearchAndScoreWords)
         {
             string word = item.Key;
             if (document.Content.FlatString().Contains(word.FlatString()))
             {
-                score += (double)1/10 * (double)item.Value;
+                score += (double)1/25 * (double)item.Value;
             }
         }
 
