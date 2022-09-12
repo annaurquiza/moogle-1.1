@@ -34,7 +34,7 @@ public class ScoreCalculator
             string word = item.Key;
             if (document.Content.FlatString().Contains(word.FlatString()))
             {
-                score += (double)1/25 * (double)item.Value;
+                score += (double)1/4 * (double)item.Value;
             }
         }
 
