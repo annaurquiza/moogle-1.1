@@ -44,11 +44,12 @@ public class Document
     }
     private void PreProcessContent(Stemmer stemmer)
     {   
-        LiteralVocabulary = FullContentIncludingTitle.ToLower().Split(" @$/#.-:&*+=[]¿?¡!(){},''\">_<;%\\".ToCharArray()).Distinct().Where(x => x.Length > 0 && !stemmer.StopWordsList().Contains(x)).OrderBy(x => x).ToList();
+        char[] splitters = " @$/#.-:&*+=[]¿?¡!(){},''\">_<;%\\".ToCharArray();
+        LiteralVocabulary = FullContentIncludingTitle.ToLower().Split(splitters).Distinct().Where(x => x.Length > 0 && !stemmer.StopWordsList().Contains(x)).OrderBy(x => x).ToList();
         //poner texto en minúscula y sustituir tildes por vocales correspondientes
         string text = FullContentIncludingTitle.FlatString();
         //tokenizar el texto, como direcciones de correo, números, etc y fragmentar
-        string[] docParts = text.Tokenize().Split(" @$/#.-:&*+=[]¿?¡!(){},''\">_<;%\\".ToCharArray());
+        string[] docParts = text.Tokenize().Split(splitters);
         foreach (string part in docParts)
         {
             // tomar solo caracteres y números

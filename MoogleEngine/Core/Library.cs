@@ -79,7 +79,7 @@ public class Library
         Dictionary<string,double> matchWords = new Dictionary<string, double>();
         foreach (var word in words)
         {
-            //tomar las palabras del vocabulario con al menos un porciento de similitud (60)
+            //tomar las palabras del vocabulario con al menos un porciento de similitud (65)
             string[] similarTerm = LiteralVocabulary.Where(x => x.ToLower() != word.ToLower() &&  word.GetCommonLettersPercent(x) >= 65).ToArray();
             foreach (string term in similarTerm)
             {
